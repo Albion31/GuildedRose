@@ -1,5 +1,6 @@
-# require File.join(File.dirname(__FILE__), './lib/gilded_rose')
 require "spec_helper"
+require File.join(File.dirname(__FILE__), '../lib/gilded_rose')
+
 
 describe GildedRose do
 
@@ -31,11 +32,25 @@ describe GildedRose do
       expect(items[0].quality).to eq 0
     end
 
+    it "The Quality of an item is never negative - 2nd test" do
+      items = [Item.new("milk", 2, 1)]
+      GildedRose.new(items).update_quality()
+      expect(items[0].sell_in).to eq 1
+      expect(items[0].quality).to eq 0
+    end
+
     it "'Aged Brie' actually increases in Quality the older it gets" do
       items = [Item.new("Aged Brie", 2, 12)]
       GildedRose.new(items).update_quality()
       expect(items[0].sell_in).to eq 1
       expect(items[0].quality).to eq 13
+    end
+
+    it "'Aged Brie' increases Quality by 2 after the sell out date" do
+      items = [Item.new("Aged Brie", 0, 12)]
+      GildedRose.new(items).update_quality()
+      expect(items[0].sell_in).to eq (-1)
+      expect(items[0].quality).to eq 14
     end
 
     it "The Quality of an item is never more than 50 - 1st test" do
