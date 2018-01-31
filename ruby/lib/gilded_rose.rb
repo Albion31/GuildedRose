@@ -12,7 +12,11 @@ class GildedRose
 
     @items.each do |item|
       if item.name != AGED_BRIE and item.name != BACKSTAGE_PASS
-        reduce_quality(item)
+        if item.quality > 0
+          if item.name != SULFURAS
+            item.quality -= 1
+          end
+        end
       else
         if item.quality < 50
           item.quality += 1
@@ -34,6 +38,8 @@ class GildedRose
           increase_quality(item)
         elsif item.name == BACKSTAGE_PASS
           drop_backstage_pass_quality_after_concert(item)
+        elsif item.name == SULFURAS
+
         else
           reduce_quality(item)
         end
@@ -46,9 +52,15 @@ end
 
 def reduce_quality(item)
   if item.quality > 0
-    update_quality_if_not_sulfuras(item)
+    item.quality -= 1
   end
 end
+#
+# def reduce_quality(item)
+#   if item.quality > 0
+#     update_quality_if_not_sulfuras(item)
+#   end
+# end
 
 def update_quality_if_not_sulfuras(item)
   if item.name != "Sulfuras, Hand of Ragnaros"

@@ -67,10 +67,24 @@ describe GildedRose do
       expect(items[0].quality).to eq 50
     end
 
-    it "'Sulfuras', being a legendary item, never has to be sold or decreases in Quality" do
+    it "'Sulfuras', being a legendary item, never has to be sold or decreases in Quality - positive quantity" do
       items = [Item.new("Sulfuras, Hand of Ragnaros", 10, 80)]
       GildedRose.new(items).update_quality()
       expect(items[0].sell_in).to eq 10
+      expect(items[0].quality).to eq 80
+    end
+
+    it "'Sulfuras', being a legendary item, never has to be sold or decreases in Quality - negative quantity" do
+      items = [Item.new("Sulfuras, Hand of Ragnaros", -1, 80)]
+      GildedRose.new(items).update_quality()
+      expect(items[0].sell_in).to eq (-1)
+      expect(items[0].quality).to eq 80
+    end
+
+    it "'Sulfuras', being a legendary item, never has to be sold or decreases in Quality" do
+      items = [Item.new("Sulfuras, Hand of Ragnaros", 0, 80)]
+      GildedRose.new(items).update_quality()
+      expect(items[0].sell_in).to eq (0)
       expect(items[0].quality).to eq 80
     end
 
